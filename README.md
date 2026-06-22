@@ -2,46 +2,37 @@
 
 A web-based Hospital Management System built using **Python, Flask, SQLite, HTML, CSS, and JavaScript**.
 
-This project helps manage patients, doctors, and appointments through a clean and user-friendly interface. It is being developed as part of my MCA portfolio to demonstrate full-stack web development skills using Flask.
+This application allows users to manage patients, doctors, and appointments through an intuitive web interface. It is designed as a portfolio project to demonstrate full-stack web development using Flask.
 
 ---
 
-## 📌 Features
+## ✨ Features
 
 ### 👨‍⚕️ Doctor Management
-- Add new doctors
-- View all doctors
-- Edit doctor details
+- Add doctors
+- View doctor records
+- Edit doctor information
 - Delete doctors
 
 ### 🧑 Patient Management
-- Add new patients
-- View all patients
-- Edit patient details
+- Add patients
+- View patient records
+- Edit patient information
 - Delete patients
 
 ### 📅 Appointment Management
 - Schedule appointments
-- View appointment list
-- Link appointments with doctors and patients
-
-### 📊 Dashboard
-- Simple navigation dashboard
-- Organized interface for managing hospital records
+- View all appointments
+- Connect patients with doctors
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
-| Python | Backend |
-| Flask | Web Framework |
-| SQLite | Database |
-| HTML5 | Structure |
-| CSS3 | Styling |
-| JavaScript | Client-side Interactions |
-| Jinja2 | Template Engine |
+- **Backend:** Python, Flask
+- **Database:** SQLite
+- **Frontend:** HTML, CSS, JavaScript
+- **Template Engine:** Jinja2
 
 ---
 
@@ -56,49 +47,33 @@ hospital-management-system/
 ├── .gitignore
 │
 ├── database/
-│   ├── db.py
-│   └── init_db.py
-│
-├── static/
-│   ├── css/
-│   └── js/
-│
-└── templates/
-    ├── base.html
-    ├── dashboard.html
-    ├── patients.html
-    ├── doctors.html
-    ├── appointments.html
-    ├── add_patient.html
-    ├── add_doctor.html
-    ├── add_appointment.html
-    ├── edit_patient.html
-    └── edit_doctor.html
+├── templates/
+└── static/
 ```
 
 ---
 
 ## 🚀 Installation
 
-### 1. Clone the repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/AmaanCoder786/hospital-management-system.git
 ```
 
-### 2. Navigate to the project
+### Navigate to the project
 
 ```bash
 cd hospital-management-system
 ```
 
-### 3. Create a virtual environment
+### Create a virtual environment
 
 ```bash
 python -m venv venv
 ```
 
-### 4. Activate the virtual environment
+### Activate the virtual environment
 
 **Windows**
 
@@ -112,19 +87,13 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 5. Install dependencies
+### Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 6. Initialize the database
-
-```bash
-python database/init_db.py
-```
-
-### 7. Run the application
+### Run the application
 
 ```bash
 python app.py
@@ -138,70 +107,40 @@ http://127.0.0.1:5000
 
 ---
 
-## 📸 Screenshots
+## 📌 Current Features
 
-### Dashboard
-
-*(Add screenshot here)*
-
-```
-images/dashboard.png
-```
-
-### Patients
-
-*(Add screenshot here)*
-
-### Doctors
-
-*(Add screenshot here)*
-
-### Appointments
-
-*(Add screenshot here)*
-
----
-
-## 📅 Current Progress
-
-### ✅ Phase 1 Completed
-
-- Patient CRUD
-- Doctor CRUD
-- Appointment Management
-- SQLite Database
+- Patient Management (CRUD)
+- Doctor Management (CRUD)
+- Appointment Scheduling
+- SQLite Database Integration
 - Flask Routing
-- Jinja Templates
-- Responsive UI
+- Jinja2 Templates
 
 ---
 
-## 🚧 Upcoming Features (Phase 2)
+## 🚧 Future Improvements
 
-- Search Patients
-- Search Doctors
-- Dashboard Statistics
-- Authentication/Login
-- Appointment Status
+- User Authentication
+- Search & Filter
+- Dashboard Analytics
 - Medical History
-- Prescription Module
-- CSV/PDF Export
-- Responsive Improvements
+- Prescription Management
+- Appointment Status Tracking
+- Responsive UI Improvements
+- Data Export (CSV/PDF)
 
 ---
 
 ## 🎯 Learning Objectives
 
-This project demonstrates:
+This project helped me practice:
 
 - Flask Web Development
 - CRUD Operations
-- Database Design
-- SQLite Integration
-- Jinja Templates
-- Python Programming
+- SQLite Database Design
+- Template Rendering with Jinja2
 - Git & GitHub Workflow
-- Frontend Integration
+- Python Backend Development
 
 ---
 
@@ -209,10 +148,11 @@ This project demonstrates:
 
 **Amaan Khan**
 
-MCA Student | Python Developer | Aspiring Backend & Cloud Engineer
+- MCA Student
+- Python Developer
+- Aspiring Backend & Cloud Engineer
 
-GitHub:
-https://github.com/AmaanCoder786
+GitHub: https://github.com/AmaanCoder786
 
 ---
 
