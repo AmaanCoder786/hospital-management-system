@@ -88,16 +88,16 @@ a {
    Navbar
 ========================== */
 
-
 /* ==========================
    Dashboard Cards
 ========================== */
+
 .dashboard-card {
     background-color: #ffffff;
     border-radius: 12px;
     border: 1px solid #e9ecef;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dashboard-card:hover {
@@ -105,15 +105,20 @@ a {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+.dashboard-card-body {
+    padding: 20px;
+    text-align: center;
+}
+
 .dashboard-icon {
-    font-size: 2.5rem;
-    margin-bottom: 8px;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
 }
 
 .dashboard-number {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .dashboard-title {
@@ -122,11 +127,34 @@ a {
     margin: 0;
 }
 
-.dashboard-card-body {
-    padding:25px;
-    text-align: center;
+/* ==========================
+   Dashboard Widgets
+========================== */
+
+.dashboard-widget-body {
+    padding: 18px 22px;
 }
 
+.dashboard-widget-body h4 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.dashboard-widget-body hr {
+    margin: 15px 0;
+}
+
+/* ==========================
+   Dashboard Buttons
+========================== */
+
+.dashboard-card .btn {
+    transition: all 0.25s ease;
+}
+
+.dashboard-card .btn:hover {
+    transform: translateY(-2px);
+}
 /* ==========================
    Tables
 ========================== */

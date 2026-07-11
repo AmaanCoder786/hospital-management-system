@@ -34,13 +34,30 @@ def dashboard():
     cursor.execute("SELECT COUNT(*) FROM appointments")
     total_appointments = cursor.fetchone()[0]
 
+    # Fetch the 5 most recent appointments
+    cursor.execute("""
+        SELECT
+            appointments.appointment_date,
+            appointments.appointment_time,
+            appointments.status,
+            patients.name AS patient_name,
+            doctors.name AS doctor_name
+        FROM appointments
+        JOIN patients ON appointments.patient_id = patients.id
+        JOIN doctors ON appointments.doctor_id = doctors.id
+        ORDER BY appointments.id DESC LIMIT 5
+    """)
+    
+    recent_appointments = cursor.fetchall()
+
     connection.close()
 
     return render_template(
         "dashboard.html",
         total_patients=total_patients,
         total_doctors=total_doctors,
-        total_appointments=total_appointments
+        total_appointments=total_appointments,
+        recent_appointments=recent_appointments
     )
 
 # ----------------------
@@ -179,7 +196,7 @@ def doctors():
     return render_template("doctors.html", doctors=doctors)
 
 # Add a new doctor to the database
-@app.route("/add_doctor", methods=["GET", "POST"])
+@app.route("/add-doctor", methods=["GET", "POST"])
 def add_doctor():
     if request.method == "POST":
 

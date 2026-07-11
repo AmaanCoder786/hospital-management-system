@@ -2,10 +2,17 @@
 
 {% block content %}
 
+<!-- ==========================
+     Dashboard Statistics
+========================== -->
+
+<!-- Dashboard Page Heading -->
 <h2 class="text-center mb-4">Dashboard</h2>
 
+<!-- Dashboard Statistics Section -->
 <div class="row">
 
+    <!-- Total Patients Card -->
     <div class="col-md-3 mb-3">
         <div class="dashboard-card">
             <div class="dashboard-card-body">
@@ -16,6 +23,7 @@
         </div>
     </div>
 
+    <!-- Total Doctors Card -->
     <div class="col-md-3 mb-3">
         <div class="dashboard-card">
             <div class="dashboard-card-body">
@@ -26,6 +34,7 @@
         </div>
     </div>
 
+    <!-- Total Appointments Card -->
     <div class="col-md-3 mb-3">
         <div class="dashboard-card">
             <div class="dashboard-card-body">
@@ -36,6 +45,7 @@
         </div>
     </div>
 
+    <!-- Pending Appointments Card -->
     <div class="col-md-3 mb-3">
         <div class="dashboard-card">
             <div class="dashboard-card-body">
@@ -48,4 +58,64 @@
 
 </div>
 
+<!-- ==========================
+     Quick Actions Section
+========================== -->
+
+ <div class="row mt-4">
+    <!-- Quick Actions Widgets-->
+    <div class="col-lg-6">
+        <div class="dashboard-card">
+            <div class="dashboard-widget-body">
+                <h4>Quick Actions</h4>
+                <hr>
+                <a href="/add-patient" class="btn btn-primary w-100 mb-2">
+                    <i class="bi bi-person-plus-fill"></i>
+                    Add Patient
+                </a>
+                <a href="/add-doctor" class="btn btn-success w-100 mb-2">
+                    <i class="bi bi-person-plus-fill"></i>
+                    Add Doctor
+                </a>
+                <a href="/add-appointment" class="btn btn-warning w-100 mb-2">
+                    <i class="bi bi-calendar-plus-fill"></i>
+                    Add Appointment
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Appointments Widget -->
+    <div class="col-lg-6">
+        <div class="dashboard-card">
+            <div class="dashboard-widget-body">
+                <h4>Recent Appointments</h4>
+                <hr>
+                {% for appointment in recent_appointments %}
+                <div class="mb-3">
+                    <h6 class="fw-bold mb-2">
+                        <i class="bi bi-person-fill text-primary"></i>
+                        {{ appointment["patient_name"] }}
+                    </h6>
+
+                    <p class="mb-1 text-muted">
+                        <i class="bi bi-person-badge-fill text-success"></i> {{ appointment["doctor_name"] }}
+                    </p>
+
+                    <p class="mb-0 text-muted">
+                        <i class="bi bi-calendar-event text-warning"></i>
+                        {{ appointment["appointment_date"] }} 
+                        &nbsp;|&nbsp;
+                        {{ appointment["appointment_time"] }}
+                    </p>
+                </div>
+
+                {% if not loop.last %}
+                <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+ </div>
 {% endblock %}
