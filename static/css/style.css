@@ -1,7 +1,25 @@
 /* ==========================
    General Layout
 ========================== */
+body {
+    margin: 0;
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+main {
+    padding: 30px;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #212529;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+}
 
 /* ==========================
    Sidebar
@@ -27,18 +45,87 @@
     color: #ffffff;
 }
 
+.sidebar .nav-link.active {
+    background-color: #0d6efd;
+    color: #ffffff;
+    font-weight: 600;
+}
+
 .sidebar .nav-link i{
     margin-right: 10px;
 }
+/* ==========================
+   Sidebar Branding
+========================== */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.sidebar-brand i {
+    font-size: 2rem;
+    color: #0d6efd;
+}
+
+.brand-text h4 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.brand-text small {
+    color: #adb5bd;
+    font-size: 0.75rem;
+}
+
 /* ==========================
    Navbar
 ========================== */
 
 
 /* ==========================
-   Cards
+   Dashboard Cards
 ========================== */
+.dashboard-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
 
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard-icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.dashboard-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.dashboard-title {
+    color: #6c757d;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.dashboard-card-body {
+    padding:25px;
+    text-align: center;
+}
 
 /* ==========================
    Tables

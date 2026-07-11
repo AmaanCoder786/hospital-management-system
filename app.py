@@ -1,28 +1,36 @@
+# Import required flask modules
 from flask import Flask, render_template, request, redirect
+
+# Import sqlite3 for database helper
 import sqlite3
 from database.db import get_db_connection
 
+# Create Flask application
 app = Flask(__name__)
 
+# ----------------------
+# Home Page
+# ----------------------
 @app.route("/")
 def home():
     return render_template("home.html")
 
+# Fetch dashboard statistics from the database
 @app.route("/dashboard")
 def dashboard():
 
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    # Total Patients
+    # Count total Patients
     cursor.execute("SELECT COUNT(*) FROM patients")
     total_patients = cursor.fetchone()[0]
 
-    # Total Doctors
+    # Count total Doctors
     cursor.execute("SELECT COUNT(*) FROM doctors")
     total_doctors = cursor.fetchone()[0]
 
-    # Total Appointments
+    # Count total Appointments
     cursor.execute("SELECT COUNT(*) FROM appointments")
     total_appointments = cursor.fetchone()[0]
 
@@ -35,102 +43,11 @@ def dashboard():
         total_appointments=total_appointments
     )
 
-@app.route("/doctors")
-def doctors():
-    connection = get_db_connection()
-    cursor = connection.cursor()
+# ----------------------
+# Patients Module
+# ----------------------
 
-    cursor.execute("SELECT * FROM doctors")
-    doctors = cursor.fetchall()
-    connection.close()
-    return render_template("doctors.html", doctors=doctors)
-
-@app.route("/add_doctor", methods=["GET", "POST"])
-def add_doctor():
-    if request.method == "POST":
-
-        name = request.form["name"]
-        specialization = request.form["specialization"]
-        phone = request.form["phone"]
-        email = request.form["email"]
-
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute("""
-                       INSERT INTO doctors 
-                       (name, specialization, phone, email) 
-                       VALUES (?, ?, ?, ?)""",
-                       (name, specialization, phone, email))
-        connection.commit()
-        connection.close()
-
-        return redirect("/doctors")
-    return render_template("add_doctor.html")
-
-@app.route("/edit-doctor/<int:id>", methods=["GET", "POST"])
-def edit_doctor(id):
-
-    if request.method == "POST":
-
-        name = request.form["name"]
-        specialization = request.form["specialization"]
-        phone = request.form["phone"]
-        email = request.form["email"]
-
-        connection = get_db_connection()
-
-        cursor = connection.cursor()
-
-        cursor.execute(
-            """
-            UPDATE doctors
-            SET name = ?, specialization = ?, phone = ?, email = ?
-            WHERE id = ?
-            """,
-            (name, specialization, phone, email, id)
-        )
-
-        connection.commit()
-        connection.close()
-
-        return redirect("/doctors")
-
-    connection = get_db_connection()
-
-    cursor = connection.cursor()
-
-    cursor.execute(
-        "SELECT * FROM doctors WHERE id = ?",
-        (id,)
-    )
-
-    doctor = cursor.fetchone()
-
-    connection.close()
-
-    return render_template(
-        "edit_doctor.html",
-        doctor=doctor
-    )
-
-@app.route("/delete-doctor/<int:id>")
-def delete_doctor(id):
-
-    connection = get_db_connection()
-
-    cursor = connection.cursor()
-
-    cursor.execute(
-        "DELETE FROM doctors WHERE id = ?",
-        (id,)
-    )
-
-    connection.commit()
-
-    connection.close()
-
-    return redirect("/doctors")
-
+# Display all patients with search by name
 @app.route("/patients")
 def patients():
 
@@ -157,6 +74,7 @@ def patients():
         search=search
     )
 
+# Add a new patient to the database
 @app.route("/add-patient", methods=["GET", "POST"])
 def add_patient():
     if request.method == "POST":
@@ -179,6 +97,7 @@ def add_patient():
         return redirect("/patients")
     return render_template("add_patient.html")
 
+# Edit an existing patient's details in the database
 @app.route("/edit-patient/<int:id>", methods=["GET", "POST"])
 def edit_patient(id):
 
@@ -225,6 +144,7 @@ def edit_patient(id):
         patient=patient
     )
 
+# Delete a patient from the database
 @app.route("/delete-patient/<int:id>")
 def delete_patient(id):
 
@@ -243,12 +163,124 @@ def delete_patient(id):
 
     return redirect("/patients") 
 
-@app.route("/appointments")
-def appointments():
+# ----------------------
+# Doctors Module
+# ----------------------
 
+# Display all doctors with search by name
+@app.route("/doctors")
+def doctors():
     connection = get_db_connection()
     cursor = connection.cursor()
 
+    cursor.execute("SELECT * FROM doctors")
+    doctors = cursor.fetchall()
+    connection.close()
+    return render_template("doctors.html", doctors=doctors)
+
+# Add a new doctor to the database
+@app.route("/add_doctor", methods=["GET", "POST"])
+def add_doctor():
+    if request.method == "POST":
+
+        name = request.form["name"]
+        specialization = request.form["specialization"]
+        phone = request.form["phone"]
+        email = request.form["email"]
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute("""
+                       INSERT INTO doctors 
+                       (name, specialization, phone, email) 
+                       VALUES (?, ?, ?, ?)""",
+                       (name, specialization, phone, email))
+        connection.commit()
+        connection.close()
+
+        return redirect("/doctors")
+    return render_template("add_doctor.html")
+
+# Edit an existing doctor's details in the database
+@app.route("/edit-doctor/<int:id>", methods=["GET", "POST"])
+def edit_doctor(id):
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        specialization = request.form["specialization"]
+        phone = request.form["phone"]
+        email = request.form["email"]
+
+        connection = get_db_connection()
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            UPDATE doctors
+            SET name = ?, specialization = ?, phone = ?, email = ?
+            WHERE id = ?
+            """,
+            (name, specialization, phone, email, id)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return redirect("/doctors")
+
+    connection = get_db_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM doctors WHERE id = ?",
+        (id,)
+    )
+
+    doctor = cursor.fetchone()
+
+    connection.close()
+
+    return render_template(
+        "edit_doctor.html",
+        doctor=doctor
+    )
+
+# Delete a doctor from the database
+@app.route("/delete-doctor/<int:id>")
+def delete_doctor(id):
+
+    connection = get_db_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "DELETE FROM doctors WHERE id = ?",
+        (id,)
+    )
+
+    connection.commit()
+
+    connection.close()
+
+    return redirect("/doctors")
+
+# ----------------------
+# Appointments Module
+# ----------------------
+
+# Display all appointments with patient and doctor names
+@app.route("/appointments")
+def appointments():
+
+    # connect to the database
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Retrieve appointment details.
+    # SQL JOIN is used to display patient and doctor names instead of their database IDs.
     cursor.execute("""
         SELECT
             appointments.id,
@@ -266,13 +298,16 @@ def appointments():
 
     appointments = cursor.fetchall()
 
+    # close the database connection 
     connection.close()
 
+    # Send appointment data to the template
     return render_template(
         "appointments.html",
         appointments=appointments
     )
 
+# Add a new appointment to the database
 @app.route("/add-appointment", methods=["GET", "POST"])
 def add_appointment():
 
@@ -321,5 +356,6 @@ def add_appointment():
         doctors=doctors
     )
 
+# Start the Flask development server
 if __name__ == "__main__":
     app.run(debug=True)
