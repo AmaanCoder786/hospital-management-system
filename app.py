@@ -14,14 +14,25 @@ def dashboard():
     connection = get_db_connection()
     cursor = connection.cursor()
 
+    # Total Patients
     cursor.execute("SELECT COUNT(*) FROM patients")
     total_patients = cursor.fetchone()[0]
+
+    # Total Doctors
+    cursor.execute("SELECT COUNT(*) FROM doctors")
+    total_doctors = cursor.fetchone()[0]
+
+    # Total Appointments
+    cursor.execute("SELECT COUNT(*) FROM appointments")
+    total_appointments = cursor.fetchone()[0]
 
     connection.close()
 
     return render_template(
         "dashboard.html",
-        total_patients=total_patients
+        total_patients=total_patients,
+        total_doctors=total_doctors,
+        total_appointments=total_appointments
     )
 
 @app.route("/doctors")

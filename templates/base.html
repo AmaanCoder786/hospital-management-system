@@ -12,10 +12,13 @@
 <body>
     <div class="d-flex">
         {% include 'Components/sidebar.html' %}
-        <main class="flex-grow-1 p-4">
-            {% block content %}
-            {% endblock %}
-        </main>
+        <div class="flex-grow-1">
+            {% include 'Components/navbar.html' %}
+            <main class="flex-grow-1 p-4">
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
