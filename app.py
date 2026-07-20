@@ -208,24 +208,46 @@ def edit_patient(id):
     )
 
 # Delete a patient from the database
-@app.route("/delete-patient/<int:id>")
+@app.route("/delete-patient/<int:id>", methods=["POST"])
 def delete_patient(id):
 
     connection = get_db_connection()
-
     cursor = connection.cursor()
 
+    # Check whether the patient has any appointments
+    cursor.execute(
+        "SELECT COUNT(*) FROM appointments WHERE patient_id = ?",
+        (id,)
+    )
+
+    appointment_count = cursor.fetchone()[0]
+
+    if appointment_count > 0:
+
+        connection.close()
+
+        flash(
+            "This patient cannot be deleted because they have existing appointments.",
+            "warning"
+        )
+
+        return redirect("/patients")
+
+    # Delete the patient if no appointments exist
     cursor.execute(
         "DELETE FROM patients WHERE id = ?",
         (id,)
     )
 
     connection.commit()
-
     connection.close()
 
-    return redirect("/patients") 
+    flash(
+        "Patient deleted successfully.",
+        "success"
+    )
 
+    return redirect("/patients")
 # ----------------------
 # Doctors Module
 # ----------------------
