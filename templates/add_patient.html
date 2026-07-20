@@ -4,27 +4,89 @@
 
 <form method="POST">
 
+    <!-- Patient Name -->
     <div class="mb-3">
-        <label>Name</label>
-        <input type="text" name="name" class="form-control">
+        <label class="form-label">Name</label>
+
+        <input
+            type="text"
+            name="name"
+            class="form-control"
+            required
+            minlength="2"
+        >
     </div>
 
+
+    <!-- Patient Age -->
     <div class="mb-3">
-        <label>Age</label>
-        <input type="number" name="age" class="form-control">
+        <label class="form-label">Age</label>
+
+        <input
+            type="number"
+            name="age"
+            class="form-control"
+            min="0"
+            max="120"
+            required
+        >
+
+        <div class="form-text">
+            Age must be between 0 and 120.
+        </div>
     </div>
 
+
+    <!-- Patient Gender -->
     <div class="mb-3">
-        <label>Gender</label>
-        <input type="text" name="gender" class="form-control">
+        <label class="form-label">Gender</label>
+
+        <select
+            name="gender"
+            class="form-select"
+            required
+        >
+
+            <option value="">
+                Select Gender
+            </option>
+
+            <option value="Male">
+                Male
+            </option>
+
+            <option value="Female">
+                Female
+            </option>
+
+            <option value="Other">
+                Other
+            </option>
+
+        </select>
     </div>
 
+
+    <!-- Patient Phone -->
     <div class="mb-3">
-        <label>Phone</label>
-        <input type="text" name="phone" class="form-control">
+        <label class="form-label">Phone</label>
+
+        <input
+            type="tel"
+            name="phone"
+            class="form-control"
+            required
+            minlength="10"
+            maxlength="15"
+        >
     </div>
 
-    <button type="submit" class="btn btn-primary">
+
+    <!-- Submit -->
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
         Save Patient
     </button>
 

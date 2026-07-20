@@ -1,12 +1,13 @@
 # Import required flask modules
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 
 # Import sqlite3 for database helper
-import sqlite3
+import sqlite3 
 from database.db import get_db_connection
 
 # Create Flask application
 app = Flask(__name__)
+app.secret_key = "hospital-management-secret-key"  # Required for flashing
 
 # ----------------------
 # Home Page
@@ -104,25 +105,49 @@ def patients():
 # Add a new patient to the database
 @app.route("/add-patient", methods=["GET", "POST"])
 def add_patient():
+
     if request.method == "POST":
 
-        name = request.form["name"]
+        name = request.form["name"].strip()
         age = request.form["age"]
         gender = request.form["gender"]
-        phone = request.form["phone"]
+        phone = request.form["phone"].strip()
+
+        # Server-side age validation
+        try:
+            age = int(age)
+
+            if age < 0 or age > 120:
+                flash("Age must be between 0 and 120.", "danger")
+                return redirect("/add-patient")
+
+        except ValueError:
+            flash("Please enter a valid age.", "danger")
+            return redirect("/add-patient")
 
         connection = get_db_connection()
         cursor = connection.cursor()
+
         cursor.execute("""
-                       INSERT INTO patients 
-                       (name, age, gender, phone) 
-                       VALUES (?, ?, ?, ?)""",
-                       (name, age, gender, phone))
+            INSERT INTO patients
+            (name, age, gender, phone)
+            VALUES (?, ?, ?, ?)
+        """, (
+            name,
+            age,
+            gender,
+            phone
+        ))
+
         connection.commit()
         connection.close()
 
         return redirect("/patients")
-    return render_template("add_patient.html", page_title="Add Patient")
+
+    return render_template(
+        "add_patient.html",
+        page_title="Add Patient"
+    )
 
 # Edit an existing patient's details in the database
 @app.route("/edit-patient/<int:id>", methods=["GET", "POST"])
@@ -130,13 +155,24 @@ def edit_patient(id):
 
     if request.method == "POST":
 
-        name = request.form["name"]
+        name = request.form["name"].strip()
         age = request.form["age"]
         gender = request.form["gender"]
-        phone = request.form["phone"]
+        phone = request.form["phone"].strip()
+
+        # Server-side age validation
+        try:
+            age = int(age)
+
+            if age < 0 or age > 120:
+                flash("Age must be between 0 and 120.", "danger")
+                return redirect(f"/edit-patient/{id}")
+
+        except ValueError:
+            flash("Please enter a valid age.", "danger")
+            return redirect(f"/edit-patient/{id}")
 
         connection = get_db_connection()
-
         cursor = connection.cursor()
 
         cursor.execute(
@@ -154,7 +190,6 @@ def edit_patient(id):
         return redirect("/patients")
 
     connection = get_db_connection()
-
     cursor = connection.cursor()
 
     cursor.execute(
@@ -419,11 +454,19 @@ def add_appointment():
         return redirect("/appointments")
 
     # Get all patients
-    cursor.execute("SELECT id, name FROM patients")
+    cursor.execute("""
+                   SELECT id, name, age, gender, phone
+                   FROM patients
+                   ORDER BY name
+                   """)
     patients = cursor.fetchall()
 
     # Get all doctors
-    cursor.execute("SELECT id, name FROM doctors")
+    cursor.execute("""
+                   SELECT id, name, specialization 
+                   FROM doctors
+                   ORDER BY name
+                   """)
     doctors = cursor.fetchall()
 
     connection.close()
