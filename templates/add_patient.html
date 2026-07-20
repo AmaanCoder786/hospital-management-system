@@ -2,94 +2,133 @@
 
 {% block content %}
 
-<form method="POST">
+<div class="patient-form-container">
 
-    <!-- Patient Name -->
-    <div class="mb-3">
-        <label class="form-label">Name</label>
+    <div class="patient-form-card">
 
-        <input
-            type="text"
-            name="name"
-            class="form-control"
-            required
-            minlength="2"
-        >
-    </div>
+        <!-- Form Header -->
+        <div class="form-header">
+            <div class="form-header-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
 
-
-    <!-- Patient Age -->
-    <div class="mb-3">
-        <label class="form-label">Age</label>
-
-        <input
-            type="number"
-            name="age"
-            class="form-control"
-            min="0"
-            max="120"
-            required
-        >
-
-        <div class="form-text">
-            Age must be between 0 and 120.
+            <div>
+                <h3>Add New Patient</h3>
+                <p>Register a new patient in the hospital system</p>
+            </div>
         </div>
+
+        <hr>
+
+        <form method="POST">
+
+            <!-- Full Name -->
+            <div class="mb-4">
+                <label class="form-label">
+                    <i class="bi bi-person"></i>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    placeholder="Enter patient's full name"
+                    required
+                >
+            </div>
+
+
+            <!-- Age + Gender -->
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+                    <label class="form-label">
+                        <i class="bi bi-calendar3"></i>
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        name="age"
+                        class="form-control"
+                        placeholder="Enter age"
+                        min="0"
+                        max="120"
+                        required
+                    >
+
+                    <small class="form-text">
+                        Age must be between 0 and 120.
+                    </small>
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+                    <label class="form-label">
+                        <i class="bi bi-gender-ambiguous"></i>
+                        Gender
+                    </label>
+
+                    <select
+                        name="gender"
+                        class="form-select"
+                        required
+                    >
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- Phone -->
+            <div class="mb-4">
+
+                <label class="form-label">
+                    <i class="bi bi-telephone"></i>
+                    Phone Number
+                </label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    class="form-control"
+                    placeholder="Enter phone number"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    <i class="bi bi-check-lg"></i>
+                    Save Patient
+                </button>
+
+                <a
+                    href="{{ url_for('patients') }}"
+                    class="btn btn-secondary"
+                >
+                    <i class="bi bi-x-lg"></i>
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
     </div>
 
-
-    <!-- Patient Gender -->
-    <div class="mb-3">
-        <label class="form-label">Gender</label>
-
-        <select
-            name="gender"
-            class="form-select"
-            required
-        >
-
-            <option value="">
-                Select Gender
-            </option>
-
-            <option value="Male">
-                Male
-            </option>
-
-            <option value="Female">
-                Female
-            </option>
-
-            <option value="Other">
-                Other
-            </option>
-
-        </select>
-    </div>
-
-
-    <!-- Patient Phone -->
-    <div class="mb-3">
-        <label class="form-label">Phone</label>
-
-        <input
-            type="tel"
-            name="phone"
-            class="form-control"
-            required
-            minlength="10"
-            maxlength="15"
-        >
-    </div>
-
-
-    <!-- Submit -->
-    <button
-        type="submit"
-        class="btn btn-primary"
-    >
-        Save Patient
-    </button>
-
-</form>
+</div>
 
 {% endblock %}
