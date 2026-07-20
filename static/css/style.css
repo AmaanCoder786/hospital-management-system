@@ -91,6 +91,15 @@ a {
 /* ==========================
    Dashboard Cards
 ========================== */
+.dashboard-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-card-link:hover {
+    color: inherit;
+}
 
 .dashboard-card {
     background-color: #ffffff;
@@ -142,6 +151,22 @@ a {
 
 .dashboard-widget-body hr {
     margin: 15px 0;
+}
+
+/* ==========================
+   Recent Appointment Items
+========================== */
+
+.appointment-item {
+    padding: 12px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    height: 100%;
+    transition: all 0.2s ease;
+}
+
+.appointment-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* ==========================

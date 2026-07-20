@@ -6,54 +6,61 @@
      Dashboard Statistics
 ========================== -->
 
-<!-- Dashboard Page Heading -->
-<h2 class="text-center mb-4">Dashboard</h2>
-
 <!-- Dashboard Statistics Section -->
 <div class="row">
 
     <!-- Total Patients Card -->
     <div class="col-md-3 mb-3">
-        <div class="dashboard-card">
-            <div class="dashboard-card-body">
-                <i class="bi bi-people-fill dashboard-icon text-primary"></i>
-                <h2 class="dashboard-number">{{ total_patients }}</h2>
-                <p class="dashboard-title">Total Patients</p>
+        <a href="/patients" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <div class="dashboard-card-body">
+                    <i class="bi bi-people-fill dashboard-icon text-primary"></i>
+                    <h2 class="dashboard-number">{{ total_patients }}</h2>
+                    <p class="dashboard-title">Total Patients</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Total Doctors Card -->
     <div class="col-md-3 mb-3">
-        <div class="dashboard-card">
-            <div class="dashboard-card-body">
-                <i class="bi bi-person-badge-fill dashboard-icon text-success"></i>
-                <h2 class="dashboard-number">{{ total_doctors }}</h2>
-                <p class="dashboard-title">Total Doctors</p>
+        <a href="/doctors" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <div class="dashboard-card-body">
+                    <i class="bi bi-person-badge-fill dashboard-icon text-success"></i>
+                    <h2 class="dashboard-number">{{ total_doctors }}</h2>
+                    <p class="dashboard-title">Total Doctors</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Total Appointments Card -->
     <div class="col-md-3 mb-3">
-        <div class="dashboard-card">
-            <div class="dashboard-card-body">
-                <i class="bi bi-calendar-check dashboard-icon text-warning"></i>
-                <h2 class="dashboard-number">{{ total_appointments }}</h2>
-                <p class="dashboard-title">Appointments</p>
+        <a href="/appointments" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <div class="dashboard-card-body">
+                    <i class="bi bi-calendar-check dashboard-icon text-warning"></i>
+                    <h2 class="dashboard-number">{{ total_appointments }}</h2>
+                    <p class="dashboard-title">Appointments</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 
-    <!-- Pending Appointments Card -->
+    <!-- Scheduled Appointments Card -->
     <div class="col-md-3 mb-3">
-        <div class="dashboard-card">
-            <div class="dashboard-card-body">
-                <i class="bi bi-hourglass-split dashboard-icon text-danger"></i>
-                <h2 class="dashboard-number">0</h2>
-                <p class="dashboard-title">Pending</p>
+        <a href="/appointments" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <div class="dashboard-card-body">
+                    <i class="bi bi-calendar-event dashboard-icon text-danger"></i>
+                    <h2 class="dashboard-number">
+                        {{ scheduled_appointments }}
+                    </h2>
+                    <p class="dashboard-title">Scheduled</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 
 </div>
@@ -91,29 +98,46 @@
             <div class="dashboard-widget-body">
                 <h4>Recent Appointments</h4>
                 <hr>
-                {% for appointment in recent_appointments %}
-                <div class="mb-3">
-                    <h6 class="fw-bold mb-2">
-                        <i class="bi bi-person-fill text-primary"></i>
-                        {{ appointment["patient_name"] }}
-                    </h6>
-
-                    <p class="mb-1 text-muted">
-                        <i class="bi bi-person-badge-fill text-success"></i> {{ appointment["doctor_name"] }}
-                    </p>
-
-                    <p class="mb-0 text-muted">
-                        <i class="bi bi-calendar-event text-warning"></i>
-                        {{ appointment["appointment_date"] }} 
-                        &nbsp;|&nbsp;
-                        {{ appointment["appointment_time"] }}
-                    </p>
+                <div class="row">
+                    {% for appointment in recent_appointments %}
+                    <div class="col-md-6 mb-3">
+                        <div class="appointment-item">
+                            <!-- Patient -->
+                            <h6 class="fw-bold mb-2">
+                                <i class="bi bi-person-fill text-primary"></i>
+                                {{ appointment["patient_name"] }}
+                            </h6>
+                            <!-- Doctor -->
+                            <p class="mb-1 text-muted">
+                                <i class="bi bi-person-badge-fill text-success"></i>
+                                {{ appointment["doctor_name"] }}
+                            </p>
+                            <!-- Date and Time -->
+                            <p class="mb-1 text-muted">
+                                <i class="bi bi-calendar-event text-warning"></i>
+                                {{ appointment["appointment_date"] }}
+                                <br>
+                                <i class="bi bi-clock text-warning"></i>
+                                {{ appointment["appointment_time"] }}
+                            </p>
+                            <!-- Status -->
+                            {% if appointment["status"] == "Scheduled" %}
+                                <span class="badge bg-warning text-dark">
+                                    Scheduled
+                                </span>
+                            {% elif appointment["status"] == "Completed" %}
+                                <span class="badge bg-success">
+                                    Completed
+                                </span>
+                            {% elif appointment["status"] == "Cancelled" %}
+                                <span class="badge bg-danger">
+                                    Cancelled
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-
-                {% if not loop.last %}
-                <hr>
-                {% endif %}
-                {% endfor %}
             </div>
         </div>
     </div>

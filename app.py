@@ -34,6 +34,13 @@ def dashboard():
     cursor.execute("SELECT COUNT(*) FROM appointments")
     total_appointments = cursor.fetchone()[0]
 
+    # Count Scheduled Appointments
+    cursor.execute("""
+                   SELECT COUNT(*) FROM appointments 
+                   WHERE status = 'Scheduled'
+                   """)
+    scheduled_appointments = cursor.fetchone()[0]
+
     # Fetch the 5 most recent appointments
     cursor.execute("""
         SELECT
@@ -54,9 +61,11 @@ def dashboard():
 
     return render_template(
         "dashboard.html",
+        page_title="Dashboard",
         total_patients=total_patients,
         total_doctors=total_doctors,
         total_appointments=total_appointments,
+        scheduled_appointments=scheduled_appointments,
         recent_appointments=recent_appointments
     )
 
@@ -87,6 +96,7 @@ def patients():
 
     return render_template(
         "patients.html",
+        page_title="Patients",
         patients=patients,
         search=search
     )
@@ -112,7 +122,7 @@ def add_patient():
         connection.close()
 
         return redirect("/patients")
-    return render_template("add_patient.html")
+    return render_template("add_patient.html", page_title="Add Patient")
 
 # Edit an existing patient's details in the database
 @app.route("/edit-patient/<int:id>", methods=["GET", "POST"])
@@ -158,6 +168,7 @@ def edit_patient(id):
 
     return render_template(
         "edit_patient.html",
+        page_title="Edit Patient",
         patient=patient
     )
 
@@ -193,7 +204,7 @@ def doctors():
     cursor.execute("SELECT * FROM doctors")
     doctors = cursor.fetchall()
     connection.close()
-    return render_template("doctors.html", doctors=doctors)
+    return render_template("doctors.html", doctors=doctors, page_title="Doctors")
 
 # Add a new doctor to the database
 @app.route("/add-doctor", methods=["GET", "POST"])
@@ -216,7 +227,7 @@ def add_doctor():
         connection.close()
 
         return redirect("/doctors")
-    return render_template("add_doctor.html")
+    return render_template("add_doctor.html", page_title="Add Doctor")
 
 # Edit an existing doctor's details in the database
 @app.route("/edit-doctor/<int:id>", methods=["GET", "POST"])
@@ -262,6 +273,7 @@ def edit_doctor(id):
 
     return render_template(
         "edit_doctor.html",
+        page_title="Edit Doctor",
         doctor=doctor
     )
 
@@ -321,8 +333,57 @@ def appointments():
     # Send appointment data to the template
     return render_template(
         "appointments.html",
+        page_title="Appointments",
         appointments=appointments
     )
+
+# Mark a scheduled appointment as completed
+@app.route("/complete-appointment/<int:appointment_id>", methods=["POST"])
+def complete_appointment(appointment_id):
+
+    # Connect to the database
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Update the appointment status
+    cursor.execute("""
+        UPDATE appointments
+        SET status = 'Completed'
+        WHERE id = ?
+    """, (appointment_id,))
+
+    # Save the change
+    connection.commit()
+
+    # Close the database connection
+    connection.close()
+
+    # Return to the appointments page
+    return redirect("/appointments")
+
+# Mark a scheduled appointment as cancelled
+@app.route("/cancel-appointment/<int:appointment_id>", methods=["POST"])
+def cancel_appointment(appointment_id):
+
+    # Connect to the database
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Update the appointment status
+    cursor.execute("""
+        UPDATE appointments
+        SET status = 'Cancelled'
+        WHERE id = ?
+    """, (appointment_id,))
+
+    # Save the change
+    connection.commit()
+
+    # Close the database connection
+    connection.close()
+
+    # Return to the appointments page
+    return redirect("/appointments")
 
 # Add a new appointment to the database
 @app.route("/add-appointment", methods=["GET", "POST"])
@@ -370,7 +431,8 @@ def add_appointment():
     return render_template(
         "add_appointment.html",
         patients=patients,
-        doctors=doctors
+        doctors=doctors,
+        page_title="Add Appointment"
     )
 
 # Start the Flask development server
