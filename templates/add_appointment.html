@@ -2,84 +2,120 @@
 
 {% block content %}
 
-<form method="POST">
+<div class="patient-form-container">
+    <div class="patient-form-card">
+        <div class="form-header">
+            <div class="form-header-icon">
+                <i class="bi bi-calendar-plus-fill"></i>
+            </div>
+            <div>
+                <h3>Add Appointment</h3>
+                <p>Schedule an appointment between a patient and doctor</p>
+            </div>
+        </div>
 
-    <!-- Patient Selection -->
-    <div class="mb-3">
-        <label class="form-label">Patient</label>
-        <select name="patient_id" class="form-select" required >
-            <option value="">
-                Select Patient
-            </option>
-            {% for patient in patients %}
-            <option value="{{ patient[0] }}">
-                {{ patient[1] }}
-                (ID: {{ patient[0] }})
-                • Age: {{ patient[2] }}
-            </option>
-            {% endfor %}
-        </select>
-    </div>
+        <hr>
 
+        {% if not patients or not doctors %}
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle"></i>
+                You need at least one patient and one doctor before creating an appointment.
+            </div>
 
-    <!-- Doctor Selection -->
-    <div class="mb-3">
-        <label class="form-label">Doctor</label>
-        <select name="doctor_id" class="form-select" required >
-            <option value="">
-                Select Doctor
-            </option>
-            {% for doctor in doctors %}
-            <option value="{{ doctor[0] }}">
-                {{ doctor[1] }}
-                (ID: {{ doctor[0] }})
-                {% if doctor[2] %} - {{ doctor[2] }}
+            <div class="d-flex gap-2">
+                {% if not patients %}
+                    <a href="{{ url_for('add_patient') }}" class="btn btn-primary">
+                        Add Patient
+                    </a>
                 {% endif %}
-            </option>
-            {% endfor %}
-        </select>
+                {% if not doctors %}
+                    <a href="{{ url_for('add_doctor') }}" class="btn btn-success">
+                        Add Doctor
+                    </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <form method="POST">
+                <div class="mb-4">
+                    <label class="form-label">Patient</label>
+                    <select name="patient_id" class="form-select" required>
+                        <option value="">Select Patient</option>
+                        {% for patient in patients %}
+                            <option
+                                value="{{ patient['id'] }}"
+                                {% if form.get('patient_id')|string == patient['id']|string %}selected{% endif %}
+                            >
+                                {{ patient['name'] }} (ID: {{ patient['id'] }}) • Age: {{ patient['age'] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Doctor</label>
+                    <select name="doctor_id" class="form-select" required>
+                        <option value="">Select Doctor</option>
+                        {% for doctor in doctors %}
+                            <option
+                                value="{{ doctor['id'] }}"
+                                {% if form.get('doctor_id')|string == doctor['id']|string %}selected{% endif %}
+                            >
+                                {{ doctor['name'] }}{% if doctor['specialization'] %} — {{ doctor['specialization'] }}{% endif %}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Appointment Date</label>
+                        <input
+                            type="date"
+                            name="appointment_date"
+                            class="form-control"
+                            value="{{ form.get('appointment_date', '') }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Appointment Time</label>
+                        <input
+                            type="time"
+                            name="appointment_time"
+                            class="form-control"
+                            value="{{ form.get('appointment_time', '') }}"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select" required>
+                        {% for status in ["Scheduled", "Completed", "Cancelled"] %}
+                            <option
+                                value="{{ status }}"
+                                {% if form.get('status', 'Scheduled') == status %}selected{% endif %}
+                            >
+                                {{ status }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-calendar-check"></i>
+                        Save Appointment
+                    </button>
+                    <a href="{{ url_for('appointments') }}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        {% endif %}
     </div>
-
-    <!-- Appointment Date -->
-    <div class="mb-3">
-        <label class="form-label">
-            Appointment Date
-        </label>
-        <input type="date" name="appointment_date" class="form-control" required >
-    </div>
-
-    <!-- Appointment Time -->
-    <div class="mb-3">
-        <label class="form-label">
-            Appointment Time
-        </label>
-        <input type="time" name="appointment_time" class="form-control" required >
-    </div>
-
-
-    <!-- Appointment Status -->
-    <div class="mb-3">
-        <label class="form-label">
-            Status
-        </label>
-
-        <select name="status" class="form-select">
-            <option value="Scheduled">
-                Scheduled
-            </option>
-            <option value="Completed">
-                Completed
-            </option>
-            <option value="Cancelled">
-                Cancelled
-            </option>
-        </select>
-    </div>
-
-    <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary">
-        Save Appointment
-    </button>
-</form>
+</div>
 
 {% endblock %}

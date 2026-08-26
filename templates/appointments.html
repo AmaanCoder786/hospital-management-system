@@ -1,113 +1,124 @@
 {% extends "base.html" %}
 
-{% block title %}Appointments{% endblock %}
-
 {% block content %}
 
-<a href="/add-appointment" class="btn btn-primary mb-3">
-    Add Appointment
-</a>
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mb-4 gap-3">
+    <a href="{{ url_for('add_appointment') }}" class="btn btn-primary">
+        <i class="bi bi-calendar-plus-fill"></i>
+        Add Appointment
+    </a>
 
-<table class="table table-bordered table-striped">
+    <form method="GET" action="{{ url_for('appointments') }}" class="appointment-filter-form">
+        <div class="input-group">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search patient or doctor..."
+                value="{{ search }}"
+            >
 
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Patient</th>
-            <th>Doctor</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+            <select name="status" class="form-select">
+                <option value="">All Statuses</option>
+                {% for status in ["Scheduled", "Completed", "Cancelled"] %}
+                    <option
+                        value="{{ status }}"
+                        {% if status_filter == status %}selected{% endif %}
+                    >
+                        {{ status }}
+                    </option>
+                {% endfor %}
+            </select>
 
-    <tbody>
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
 
-        {% for appointment in appointments %}
+            {% if search or status_filter %}
+                <a href="{{ url_for('appointments') }}" class="btn btn-secondary">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            {% endif %}
+        </div>
+    </form>
+</div>
 
-        <tr>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
 
-            <td>{{ appointment[0] }}</td>
-            <td>{{ appointment[1] }}</td>
-            <td>{{ appointment[2] }}</td>
-            <td>{{ appointment[3] }}</td>
-            <td>{{ appointment[4] }}</td>
+        <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment["id"] }}</td>
+                    <td>{{ appointment["patient_name"] }}</td>
+                    <td>{{ appointment["doctor_name"] }}</td>
+                    <td>{{ appointment["appointment_date"] }}</td>
+                    <td>{{ appointment["appointment_time"] }}</td>
 
-            <!-- Status -->
-            <td>
+                    <td>
+                        {% if appointment["status"] == "Scheduled" %}
+                            <span class="badge bg-warning text-dark">Scheduled</span>
+                        {% elif appointment["status"] == "Completed" %}
+                            <span class="badge bg-success">Completed</span>
+                        {% else %}
+                            <span class="badge bg-danger">Cancelled</span>
+                        {% endif %}
+                    </td>
 
-                {% if appointment[5] == 'Scheduled' %}
+                    <td>
+                        {% if appointment["status"] == "Scheduled" %}
+                            <div class="d-flex flex-wrap gap-2">
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('complete_appointment', appointment_id=appointment['id']) }}"
+                                >
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="bi bi-check-lg"></i>
+                                        Complete
+                                    </button>
+                                </form>
 
-                    <span class="badge bg-warning text-dark">
-                        Scheduled
-                    </span>
-
-                {% elif appointment[5] == 'Completed' %}
-
-                    <span class="badge bg-success">
-                        Completed
-                    </span>
-
-                {% elif appointment[5] == 'Cancelled' %}
-
-                    <span class="badge bg-danger">
-                        Cancelled
-                    </span>
-
-                {% endif %}
-
-            </td>
-
-            <!-- Actions -->
-            <td>
-
-                {% if appointment[5] == 'Scheduled' %}
-
-                    <div class="d-flex gap-2">
-
-                        <form
-                            method="POST"
-                            action="{{ url_for('complete_appointment', appointment_id=appointment[0]) }}"
-                        >
-                            <button class="btn btn-success btn-sm">
-                                Complete
-                            </button>
-                        </form>
-
-                        <form
-                            method="POST"
-                            action="{{ url_for('cancel_appointment', appointment_id=appointment[0]) }}"
-                        >
-                            <button class="btn btn-danger btn-sm">
-                                Cancel
-                            </button>
-                        </form>
-
-                    </div>
-
-                {% elif appointment[5] == 'Completed' %}
-
-                    <span class="text-muted">
-                        No action
-                    </span>
-
-                {% elif appointment[5] == 'Cancelled' %}
-
-                    <span class="text-muted">
-                        No action
-                    </span>
-
-                {% endif %}
-
-            </td>
-
-        </tr>
-
-        {% endfor %}
-
-    </tbody>
-
-</table>
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('cancel_appointment', appointment_id=appointment['id']) }}"
+                                    onsubmit="return confirm('Cancel this appointment?');"
+                                >
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-x-lg"></i>
+                                        Cancel
+                                    </button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <span class="text-muted">No action</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
+                        {% if search or status_filter %}
+                            No appointments match the selected filters.
+                        {% else %}
+                            No appointments have been added yet.
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

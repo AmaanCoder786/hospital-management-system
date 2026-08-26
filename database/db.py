@@ -1,8 +1,12 @@
+from pathlib import Path
 import sqlite3
 
-def get_db_connection():
-    connection = sqlite3.connect("database/hospital.db")
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATABASE_PATH = BASE_DIR / "database" / "hospital.db"
 
-    # Return rows as dictionary-like objects instead of tuples
+
+def get_db_connection():
+    connection = sqlite3.connect(DATABASE_PATH)
     connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA foreign_keys = ON")
     return connection

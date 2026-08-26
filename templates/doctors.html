@@ -2,55 +2,90 @@
 
 {% block content %}
 
-<a href="/add-doctor" class="btn btn-primary mb-3">
-    Add Doctor
-</a>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <a href="{{ url_for('add_doctor') }}" class="btn btn-primary">
+        <i class="bi bi-person-plus-fill"></i>
+        Add Doctor
+    </a>
 
-<table class="table table-bordered table-hover">
+    <form method="GET" action="{{ url_for('doctors') }}" class="patient-search-form">
+        <div class="input-group">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search name or specialization..."
+                value="{{ search }}"
+            >
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+            {% if search %}
+                <a href="{{ url_for('doctors') }}" class="btn btn-secondary">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            {% endif %}
+        </div>
+    </form>
+</div>
 
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Specialization</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
 
-    <tbody>
+        <tbody>
+            {% for doctor in doctors %}
+                <tr>
+                    <td>{{ doctor["id"] }}</td>
+                    <td class="fw-semibold">{{ doctor["name"] }}</td>
+                    <td>{{ doctor["specialization"] }}</td>
+                    <td>{{ doctor["phone"] }}</td>
+                    <td>{{ doctor["email"] }}</td>
+                    <td>
+                        <a
+                            href="{{ url_for('edit_doctor', id=doctor['id']) }}"
+                            class="btn btn-sm btn-warning"
+                        >
+                            <i class="bi bi-pencil-square"></i>
+                            Edit
+                        </a>
 
-    {% for doctor in doctors %}
-
-    <tr>
-
-        <td>{{ doctor[0] }}</td>
-
-        <td>{{ doctor[1] }}</td>
-
-        <td>{{ doctor[2] }}</td>
-
-        <td>{{ doctor[3] }}</td>
-
-        <td>{{ doctor[4] }}</td>
-
-        <td>
-            <a href="/edit-doctor/{{ doctor[0] }}" class="btn btn-sm btn-warning">
-                Edit
-            </a>
-            <a href="/delete-doctor/{{ doctor[0] }}" class="btn btn-sm btn-danger"
-            onclick="return confirm('Delete this doctor?');">
-                Delete
-            </a>
-        </td>
-
-    </tr>
-
-    {% endfor %}
-
-    </tbody>
-
-</table>
+                        <form
+                            method="POST"
+                            action="{{ url_for('delete_doctor', id=doctor['id']) }}"
+                            class="d-inline"
+                            onsubmit="return confirm('Delete this doctor?');"
+                        >
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-5">
+                        <i class="bi bi-person-x fs-3 d-block mb-2"></i>
+                        {% if search %}
+                            No doctors found for "{{ search }}".
+                        {% else %}
+                            No doctors have been added yet.
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

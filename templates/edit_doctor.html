@@ -2,55 +2,83 @@
 
 {% block content %}
 
-<form method="POST">
+<div class="patient-form-container">
+    <div class="patient-form-card">
+        <div class="form-header">
+            <div class="form-header-icon">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+            <div>
+                <h3>Edit Doctor</h3>
+                <p>Update the doctor's information below</p>
+            </div>
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Doctor Name</label>
-        <input
-            type="text"
-            name="name"
-            class="form-control"
-            value="{{ doctor[1] }}"
-            required>
+        <hr>
+
+        <form method="POST">
+            <div class="mb-4">
+                <label class="form-label">Doctor Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    value="{{ form.get('name', doctor['name']) }}"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Specialization</label>
+                <input
+                    type="text"
+                    name="specialization"
+                    class="form-control"
+                    value="{{ form.get('specialization', doctor['specialization']) }}"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Phone</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    class="form-control"
+                    value="{{ form.get('phone', doctor['phone']) }}"
+                    minlength="10"
+                    maxlength="10"
+                    inputmode="numeric"
+                    pattern="[0-9]{10}"
+                    required
+                >
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    value="{{ form.get('email', doctor['email']) }}"
+                    maxlength="150"
+                    required
+                >
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-lg"></i>
+                    Update Doctor
+                </button>
+                <a href="{{ url_for('doctors') }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Specialization</label>
-        <input
-            type="text"
-            name="specialization"
-            class="form-control"
-            value="{{ doctor[2] }}"
-            required>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Phone</label>
-        <input
-            type="text"
-            name="phone"
-            class="form-control"
-            value="{{ doctor[3] }}">
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input
-            type="email"
-            name="email"
-            class="form-control"
-            value="{{ doctor[4] }}">
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        Update Doctor
-    </button>
-
-    <a href="/doctors" class="btn btn-secondary">
-        Cancel
-    </a>
-
-</form>
-<div class="container pb-5"></div>
+</div>
 
 {% endblock %}

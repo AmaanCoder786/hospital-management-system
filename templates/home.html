@@ -2,19 +2,63 @@
 
 {% block content %}
 
-<h2>Welcome to HMS</h2>
+<div class="hero-card mb-4">
+    <div>
+        <span class="badge bg-primary mb-3">Hospital Management System</span>
+        <h1 class="display-6 fw-bold">Manage your hospital operations in one place.</h1>
+        <p class="lead text-muted mb-4">
+            A Flask and SQLite portfolio application for managing patients,
+            doctors, and appointments.
+        </p>
 
-<p>Welcome to the Hospital Management System.</p>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                <i class="bi bi-speedometer2"></i>
+                Open Dashboard
+            </a>
+            <a href="{{ url_for('patients') }}" class="btn btn-outline-secondary">
+                View Patients
+            </a>
+        </div>
+    </div>
+</div>
 
-<h3>Features</h3>
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <div class="dashboard-widget-body">
+                <i class="bi bi-people-fill text-primary fs-2"></i>
+                <h4 class="mt-3">Patient Management</h4>
+                <p class="text-muted mb-0">
+                    Add, edit, search, and manage patient records with validation.
+                </p>
+            </div>
+        </div>
+    </div>
 
-<ul>
-    <li>Patient Management</li>
-    <li>Doctor Management</li>
-    <li>Appointment Scheduling</li>
-    <li>Treatment Records</li>
-</ul>
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <div class="dashboard-widget-body">
+                <i class="bi bi-person-badge-fill text-success fs-2"></i>
+                <h4 class="mt-3">Doctor Management</h4>
+                <p class="text-muted mb-0">
+                    Maintain doctor details and protect records linked to appointments.
+                </p>
+            </div>
+        </div>
+    </div>
 
-<p>Built using Python Flask and SQLite.</p>
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <div class="dashboard-widget-body">
+                <i class="bi bi-calendar-check text-warning fs-2"></i>
+                <h4 class="mt-3">Appointments</h4>
+                <p class="text-muted mb-0">
+                    Schedule appointments, prevent doctor time conflicts, and track status.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

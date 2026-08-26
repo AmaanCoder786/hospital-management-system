@@ -1,38 +1,53 @@
-<div class="sidebar">
+<aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <i class="bi bi-hospital-fill"></i>
-
         <div class="brand-text">
             <h4>HMS</h4>
-            <small>Hospital Management System</small>
+            <small>Hospital Management</small>
         </div>
     </div>
 
-    <ul class="nav flex-column">
+    <nav>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}"
+                >
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
+            </li>
 
-        <li class="nav-item mb-2">
-            <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %} active{% endif %}">
-                <i class="bi bi-speedometer2"></i> Dashboard
-            </a>
-        </li>
+            <li class="nav-item mb-2">
+                <a
+                    href="{{ url_for('patients') }}"
+                    class="nav-link {% if request.endpoint in ['patients', 'add_patient', 'edit_patient'] %}active{% endif %}"
+                >
+                    <i class="bi bi-people"></i>
+                    Patients
+                </a>
+            </li>
 
-        <li class="nav-item mb-2">
-            <a href="{{ url_for('patients') }}" class="nav-link {% if request.endpoint == 'patients' %} active{% endif %}">
-                <i class="bi bi-people"></i> Patients
-            </a>
-        </li>
+            <li class="nav-item mb-2">
+                <a
+                    href="{{ url_for('doctors') }}"
+                    class="nav-link {% if request.endpoint in ['doctors', 'add_doctor', 'edit_doctor'] %}active{% endif %}"
+                >
+                    <i class="bi bi-person-badge"></i>
+                    Doctors
+                </a>
+            </li>
 
-        <li class="nav-item mb-2">
-            <a href="{{ url_for('doctors') }}" class="nav-link {% if request.endpoint == 'doctors' %} active{% endif %}">
-                <i class="bi bi-person-badge"></i> Doctors
-            </a>
-        </li>
-
-        <li class="nav-item mb-2">
-            <a href="{{ url_for('appointments') }}" class="nav-link {% if request.endpoint == 'appointments' %} active{% endif %}">
-                <i class="bi bi-calendar-check"></i> Appointments
-            </a>
-        </li>
-
-    </ul>
-</div>
+            <li class="nav-item mb-2">
+                <a
+                    href="{{ url_for('appointments') }}"
+                    class="nav-link {% if request.endpoint in ['appointments', 'add_appointment'] %}active{% endif %}"
+                >
+                    <i class="bi bi-calendar-check"></i>
+                    Appointments
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>

@@ -2,17 +2,10 @@
 
 {% block content %}
 
-<!-- ==========================
-     Dashboard Statistics
-========================== -->
-
-<!-- Dashboard Statistics Section -->
-<div class="row">
-
-    <!-- Total Patients Card -->
-    <div class="col-md-3 mb-3">
-        <a href="/patients" class="dashboard-card-link">
-            <div class="dashboard-card">
+<div class="row g-4">
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('patients') }}" class="dashboard-card-link">
+            <div class="dashboard-card h-100">
                 <div class="dashboard-card-body">
                     <i class="bi bi-people-fill dashboard-icon text-primary"></i>
                     <h2 class="dashboard-number">{{ total_patients }}</h2>
@@ -22,10 +15,9 @@
         </a>
     </div>
 
-    <!-- Total Doctors Card -->
-    <div class="col-md-3 mb-3">
-        <a href="/doctors" class="dashboard-card-link">
-            <div class="dashboard-card">
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('doctors') }}" class="dashboard-card-link">
+            <div class="dashboard-card h-100">
                 <div class="dashboard-card-body">
                     <i class="bi bi-person-badge-fill dashboard-icon text-success"></i>
                     <h2 class="dashboard-number">{{ total_doctors }}</h2>
@@ -35,10 +27,9 @@
         </a>
     </div>
 
-    <!-- Total Appointments Card -->
-    <div class="col-md-3 mb-3">
-        <a href="/appointments" class="dashboard-card-link">
-            <div class="dashboard-card">
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('appointments') }}" class="dashboard-card-link">
+            <div class="dashboard-card h-100">
                 <div class="dashboard-card-body">
                     <i class="bi bi-calendar-check dashboard-icon text-warning"></i>
                     <h2 class="dashboard-number">{{ total_appointments }}</h2>
@@ -48,98 +39,96 @@
         </a>
     </div>
 
-    <!-- Scheduled Appointments Card -->
-    <div class="col-md-3 mb-3">
-        <a href="/appointments" class="dashboard-card-link">
-            <div class="dashboard-card">
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('appointments', status_filter='Scheduled') }}" class="dashboard-card-link">
+            <div class="dashboard-card h-100">
                 <div class="dashboard-card-body">
                     <i class="bi bi-calendar-event dashboard-icon text-danger"></i>
-                    <h2 class="dashboard-number">
-                        {{ scheduled_appointments }}
-                    </h2>
+                    <h2 class="dashboard-number">{{ scheduled_appointments }}</h2>
                     <p class="dashboard-title">Scheduled</p>
                 </div>
             </div>
         </a>
     </div>
-
 </div>
 
-<!-- ==========================
-     Quick Actions Section
-========================== -->
-
- <div class="row mt-4">
-    <!-- Quick Actions Widgets-->
-    <div class="col-lg-6">
-        <div class="dashboard-card">
+<div class="row g-4 mt-1">
+    <div class="col-lg-5">
+        <div class="dashboard-card h-100">
             <div class="dashboard-widget-body">
                 <h4>Quick Actions</h4>
                 <hr>
-                <a href="/add-patient" class="btn btn-primary w-100 mb-2">
+
+                <a href="{{ url_for('add_patient') }}" class="btn btn-primary w-100 mb-2">
                     <i class="bi bi-person-plus-fill"></i>
                     Add Patient
                 </a>
-                <a href="/add-doctor" class="btn btn-success w-100 mb-2">
+
+                <a href="{{ url_for('add_doctor') }}" class="btn btn-success w-100 mb-2">
                     <i class="bi bi-person-plus-fill"></i>
                     Add Doctor
                 </a>
-                <a href="/add-appointment" class="btn btn-warning w-100 mb-2">
+
+                <a href="{{ url_for('add_appointment') }}" class="btn btn-warning w-100">
                     <i class="bi bi-calendar-plus-fill"></i>
                     Add Appointment
                 </a>
             </div>
         </div>
     </div>
-    
-    <!-- Recent Appointments Widget -->
-    <div class="col-lg-6">
-        <div class="dashboard-card">
+
+    <div class="col-lg-7">
+        <div class="dashboard-card h-100">
             <div class="dashboard-widget-body">
-                <h4>Recent Appointments</h4>
-                <hr>
-                <div class="row">
-                    {% for appointment in recent_appointments %}
-                    <div class="col-md-6 mb-3">
-                        <div class="appointment-item">
-                            <!-- Patient -->
-                            <h6 class="fw-bold mb-2">
-                                <i class="bi bi-person-fill text-primary"></i>
-                                {{ appointment["patient_name"] }}
-                            </h6>
-                            <!-- Doctor -->
-                            <p class="mb-1 text-muted">
-                                <i class="bi bi-person-badge-fill text-success"></i>
-                                {{ appointment["doctor_name"] }}
-                            </p>
-                            <!-- Date and Time -->
-                            <p class="mb-1 text-muted">
-                                <i class="bi bi-calendar-event text-warning"></i>
-                                {{ appointment["appointment_date"] }}
-                                <br>
-                                <i class="bi bi-clock text-warning"></i>
-                                {{ appointment["appointment_time"] }}
-                            </p>
-                            <!-- Status -->
-                            {% if appointment["status"] == "Scheduled" %}
-                                <span class="badge bg-warning text-dark">
-                                    Scheduled
-                                </span>
-                            {% elif appointment["status"] == "Completed" %}
-                                <span class="badge bg-success">
-                                    Completed
-                                </span>
-                            {% elif appointment["status"] == "Cancelled" %}
-                                <span class="badge bg-danger">
-                                    Cancelled
-                                </span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Recent Appointments</h4>
+                    <a href="{{ url_for('appointments') }}" class="small">View all</a>
                 </div>
+                <hr>
+
+                {% if recent_appointments %}
+                    <div class="row">
+                        {% for appointment in recent_appointments %}
+                            <div class="col-md-6 mb-3">
+                                <div class="appointment-item">
+                                    <h6 class="fw-bold mb-2">
+                                        <i class="bi bi-person-fill text-primary"></i>
+                                        {{ appointment["patient_name"] }}
+                                    </h6>
+
+                                    <p class="mb-1 text-muted">
+                                        <i class="bi bi-person-badge-fill text-success"></i>
+                                        {{ appointment["doctor_name"] }}
+                                    </p>
+
+                                    <p class="mb-2 text-muted">
+                                        <i class="bi bi-calendar-event text-warning"></i>
+                                        {{ appointment["appointment_date"] }}
+                                        <br>
+                                        <i class="bi bi-clock text-warning"></i>
+                                        {{ appointment["appointment_time"] }}
+                                    </p>
+
+                                    {% if appointment["status"] == "Scheduled" %}
+                                        <span class="badge bg-warning text-dark">Scheduled</span>
+                                    {% elif appointment["status"] == "Completed" %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Cancelled</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-calendar-x"></i>
+                        <p class="mb-0">No appointments yet.</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
- </div>
+</div>
+
 {% endblock %}

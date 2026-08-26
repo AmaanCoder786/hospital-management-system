@@ -1,319 +1,290 @@
-/* ==========================
-   General Layout
-========================== */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
+
 body {
-    margin: 0;
-    background-color: #f5f7fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-main {
-    padding: 30px;
-    min-height: 100vh;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: #212529;
-    font-weight: 600;
+  margin: 0;
+  background-color: #f5f7fa;
+  color: #212529;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-/* ==========================
-   Sidebar
-========================== */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
 .sidebar {
-    width: 250px;
-    min-width: 250px;
-    flex-shrink: 0;
-    min-height: 100vh;
-    background-color: #212529;
-    color:white;
-    padding: 1.5rem;
+  width: 250px;
+  min-width: 250px;
+  min-height: 100vh;
+  flex-shrink: 0;
+  background-color: #212529;
+  color: #fff;
+  padding: 1.5rem;
 }
 
-.min-vw-0 {
-    min-width: 0;
+.main-wrapper {
+  flex: 1;
+  min-width: 0;
 }
 
-.sidebar .nav-link{
-    color: #ffffff;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 8px;
-    transition: all 0.3s ease;
+.content-area {
+  padding: 30px;
+  min-height: calc(100vh - 73px);
 }
-
-.sidebar .nav-link:hover {
-    background-color: #0d6efd;
-    color: #ffffff;
-}
-
-.sidebar .nav-link.active {
-    background-color: #0d6efd;
-    color: #ffffff;
-    font-weight: 600;
-}
-
-.sidebar .nav-link i{
-    margin-right: 10px;
-}
-/* ==========================
-   Sidebar Branding
-========================== */
 
 .sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 10px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.sidebar-brand i {
-    font-size: 2rem;
-    color: #0d6efd;
+.sidebar-brand > i {
+  font-size: 2rem;
+  color: #0d6efd;
 }
 
 .brand-text h4 {
-    margin: 0;
-    color: #ffffff;
-    font-size: 1.2rem;
-    font-weight: 700;
+  margin: 0;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .brand-text small {
-    color: #adb5bd;
-    font-size: 0.75rem;
+  color: #adb5bd;
+  font-size: 0.75rem;
 }
 
-/* ==========================
-   Navbar
-========================== */
+.sidebar .nav-link {
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
 
-/* ==========================
-   Dashboard Cards
-========================== */
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.sidebar .nav-link i {
+  margin-right: 10px;
+}
+
 .dashboard-card-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
+  display: block;
+  color: inherit;
 }
 
 .dashboard-card-link:hover {
-    color: inherit;
+  color: inherit;
 }
 
 .dashboard-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .dashboard-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-card-body {
-    padding: 20px;
-    text-align: center;
+  padding: 20px;
+  text-align: center;
 }
 
 .dashboard-icon {
-    font-size: 2.2rem;
-    margin-bottom: 10px;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
 }
 
 .dashboard-number {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 6px;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
 .dashboard-title {
-    color: #6c757d;
-    font-size: 1rem;
-    margin: 0;
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
 }
 
-/* ==========================
-   Dashboard Widgets
-========================== */
-
 .dashboard-widget-body {
-    padding: 18px 22px;
+  padding: 22px;
 }
 
 .dashboard-widget-body h4 {
-    font-weight: 600;
-    margin-bottom: 10px;
+  font-weight: 600;
 }
-
-.dashboard-widget-body hr {
-    margin: 15px 0;
-}
-
-/* ==========================
-   Recent Appointment Items
-========================== */
 
 .appointment-item {
-    padding: 12px;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    height: 100%;
-    transition: all 0.2s ease;
+  height: 100%;
+  padding: 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease;
 }
 
 .appointment-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* ==========================
-   Dashboard Buttons
-========================== */
-
-.dashboard-card .btn {
-    transition: all 0.25s ease;
+.patient-search-form,
+.appointment-filter-form {
+  width: 100%;
+  max-width: 650px;
 }
-
-.dashboard-card .btn:hover {
-    transform: translateY(-2px);
-}
-
-/* ==========================
-   Patient Page
-========================== */
-
-.patient-search-form {
-    flex: 1;
-    max-width: 600px;
-}
-
-.patients-table {
-    background-color: #ffffff;
-}
-
-.patients-table tbody tr {
-    transition: background-color 0.2s ease;
-}
-
-.patients-table tbody tr:hover {
-    background-color: #f1f5f9;
-}
-
-.patients-table th {
-    font-weight: 600;
-}
-
-
-/* ==========================
-   Patient Form
-========================== */
 
 .patient-form-container {
-    max-width: 900px;
-    margin: 0 auto;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .patient-form-card {
-    background-color: #ffffff;
-    border: 1px solid #e9ecef;
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
 }
-.patient-form-card hr {
-    border-color: #dee2e6;
-}
-
-/* Form Header */
 
 .form-header {
-    display: flex;
-    align-items: center;
-    gap: 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .form-header-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-    background-color: #e7f1ff;
-    color: #0d6efd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background-color: #e7f1ff;
+  color: #0d6efd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
 }
 
 .form-header h3 {
-    margin: 0;
-    font-weight: 600;
+  margin: 0;
+  font-weight: 600;
 }
 
 .form-header p {
-    margin: 4px 0 0;
-    color: #6c757d;
+  margin: 4px 0 0;
+  color: #6c757d;
 }
 
-/* Labels */
-
 .form-label {
-    font-weight: 600;
-    margin-bottom: 8px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .form-label i {
-    margin-right: 6px;
-    color: #0d6efd;
+  margin-right: 6px;
+  color: #0d6efd;
 }
-
-/* Inputs */
 
 .patient-form-card .form-control,
 .patient-form-card .form-select {
-    min-height: 48px;
-    border-radius: 8px;
+  min-height: 48px;
+  border-radius: 8px;
 }
 
 .patient-form-card .form-control:focus,
 .patient-form-card .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
 }
-
-.form-text {
-    color: #6c757d;
-}
-
-/* Buttons */
 
 .form-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .form-actions .btn {
-    padding: 10px 18px;
+  padding: 10px 18px;
 }
 
+.empty-state {
+  text-align: center;
+  padding: 25px;
+  color: #6c757d;
+}
 
-/* ==========================
-   Buttons
-========================== */
+.empty-state i {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 8px;
+}
 
+.hero-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 14px;
+  padding: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
 
-/* ==========================
-   Responsive
-========================== */
+.table th {
+  white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    left: -270px;
+    top: 0;
+    z-index: 1050;
+    transition: left 0.25s ease;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  .content-area {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .patient-form-card,
+  .hero-card {
+    padding: 20px;
+  }
+
+  .content-area {
+    padding: 15px;
+  }
+
+  .form-header {
+    align-items: flex-start;
+  }
+
+  .table {
+    font-size: 0.9rem;
+  }
+}

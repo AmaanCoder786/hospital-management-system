@@ -1,7 +1,11 @@
+from pathlib import Path
 import sqlite3
 
-connection = sqlite3.connect("database/hospital.db")
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATABASE_PATH = BASE_DIR / "database" / "hospital.db"
 
+connection = sqlite3.connect(DATABASE_PATH)
+connection.execute("PRAGMA foreign_keys = ON")
 cursor = connection.cursor()
 
 cursor.execute("""
@@ -13,13 +17,14 @@ CREATE TABLE IF NOT EXISTS patients (
     phone TEXT NOT NULL
 )
 """)
+
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS doctors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     specialization TEXT NOT NULL,
-    phone TEXT,
-    email TEXT
+    phone TEXT NOT NULL,
+    email TEXT NOT NULL
 )
 """)
 
@@ -30,14 +35,33 @@ CREATE TABLE IF NOT EXISTS appointments (
     doctor_id INTEGER NOT NULL,
     appointment_date TEXT NOT NULL,
     appointment_time TEXT NOT NULL,
-    status TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('Scheduled', 'Completed', 'Cancelled')),
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 )
 """)
 
-connection.commit()
+cursor.execute("""
+CREATE INDEX IF NOT EXISTS idx_patients_name
+ON patients(name)
+""")
 
+cursor.execute("""
+CREATE INDEX IF NOT EXISTS idx_doctors_name
+ON doctors(name)
+""")
+
+cursor.execute("""
+CREATE INDEX IF NOT EXISTS idx_appointments_date
+ON appointments(appointment_date, appointment_time)
+""")
+
+cursor.execute("""
+CREATE INDEX IF NOT EXISTS idx_appointments_doctor_slot
+ON appointments(doctor_id, appointment_date, appointment_time, status)
+""")
+
+connection.commit()
 connection.close()
 
-print("Database and tables created successfully!")
+print(f"Database initialized: {DATABASE_PATH}")
