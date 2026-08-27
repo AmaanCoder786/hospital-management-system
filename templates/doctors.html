@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="/add-doctor" class="btn btn-primary mb-3">
+    Add Doctor
+</a>
+
+<table class="table table-bordered table-hover">
+
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for doctor in doctors %}
+
+    <tr>
+
+        <td>{{ doctor[0] }}</td>
+
+        <td>{{ doctor[1] }}</td>
+
+        <td>{{ doctor[2] }}</td>
+
+        <td>{{ doctor[3] }}</td>
+
+        <td>{{ doctor[4] }}</td>
+
+        <td>
+            <a href="/edit-doctor/{{ doctor[0] }}" class="btn btn-sm btn-warning">
+                Edit
+            </a>
+            <form
+                method="POST"
+                action="{{ url_for('delete_doctor', id=doctor[0]) }}"
+                class="d-inline"
+                onsubmit="return confirm('Delete this doctor?');"
+            >
+                <button type="submit" class="btn btn-sm btn-danger">
+                    Delete
+                </button>
+            </form>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,329 @@
+/* ==========================
+   General Layout
+========================== */
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+main {
+    padding: 30px;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #212529;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ==========================
+   Sidebar
+========================== */
+.sidebar {
+    width: 250px;
+    min-width: 250px;
+    flex-shrink: 0;
+    min-height: 100vh;
+    background-color: #212529;
+    color:white;
+    padding: 1.5rem;
+}
+
+.min-vw-0 {
+    min-width: 0;
+}
+
+.sidebar .nav-link{
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #0d6efd;
+    color: #ffffff;
+}
+
+.sidebar .nav-link.active {
+    background-color: #0d6efd;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sidebar .nav-link i{
+    margin-right: 10px;
+}
+/* ==========================
+   Sidebar Branding
+========================== */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.sidebar-brand i {
+    font-size: 2rem;
+    color: #0d6efd;
+}
+
+.brand-text h4 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.brand-text small {
+    color: #adb5bd;
+    font-size: 0.75rem;
+}
+
+/* ==========================
+   Navbar
+========================== */
+
+/* ==========================
+   Dashboard Cards
+========================== */
+.dashboard-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-card-link:hover {
+    color: inherit;
+}
+
+.dashboard-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard-card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard-icon {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.dashboard-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.dashboard-title {
+    color: #6c757d;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* ==========================
+   Dashboard Widgets
+========================== */
+
+.dashboard-widget-body {
+    padding: 18px 22px;
+}
+
+.dashboard-widget-body h4 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.dashboard-widget-body hr {
+    margin: 15px 0;
+}
+
+/* ==========================
+   Recent Appointment Items
+========================== */
+
+.appointment-item {
+    padding: 12px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    height: 100%;
+    transition: all 0.2s ease;
+}
+
+.appointment-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================
+   Recent Appointments Scroll
+========================== */
+
+.recent-appointments-container {
+    max-height: 390px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* ==========================
+   Dashboard Buttons
+========================== */
+
+.dashboard-card .btn {
+    transition: all 0.25s ease;
+}
+
+.dashboard-card .btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ==========================
+   Patient Page
+========================== */
+
+.patient-search-form {
+    flex: 1;
+    max-width: 600px;
+}
+
+.patients-table {
+    background-color: #ffffff;
+}
+
+.patients-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.patients-table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+.patients-table th {
+    font-weight: 600;
+}
+
+
+/* ==========================
+   Patient Form
+========================== */
+
+.patient-form-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.patient-form-card {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+.patient-form-card hr {
+    border-color: #dee2e6;
+}
+
+/* Form Header */
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.form-header-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background-color: #e7f1ff;
+    color: #0d6efd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+}
+
+.form-header h3 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.form-header p {
+    margin: 4px 0 0;
+    color: #6c757d;
+}
+
+/* Labels */
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-label i {
+    margin-right: 6px;
+    color: #0d6efd;
+}
+
+/* Inputs */
+
+.patient-form-card .form-control,
+.patient-form-card .form-select {
+    min-height: 48px;
+    border-radius: 8px;
+}
+
+.patient-form-card .form-control:focus,
+.patient-form-card .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+.form-text {
+    color: #6c757d;
+}
+
+/* Buttons */
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.form-actions .btn {
+    padding: 10px 18px;
+}
+
+
+/* ==========================
+   Buttons
+========================== */
+
+
+/* ==========================
+   Responsive
+========================== */

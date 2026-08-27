@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Appointments{% endblock %}
+
+{% block content %}
+
+<a href="/add-appointment" class="btn btn-primary mb-3">
+    Add Appointment
+</a>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for appointment in appointments %}
+
+        <tr>
+
+            <td>{{ appointment[0] }}</td>
+            <td>{{ appointment[1] }}</td>
+            <td>{{ appointment[2] }}</td>
+            <td>{{ appointment[3] }}</td>
+            <td>{{ appointment[4] }}</td>
+
+            <!-- Status -->
+            <td>
+
+                {% if appointment[5] == 'Scheduled' %}
+
+                    <span class="badge bg-warning text-dark">
+                        Scheduled
+                    </span>
+
+                {% elif appointment[5] == 'Completed' %}
+
+                    <span class="badge bg-success">
+                        Completed
+                    </span>
+
+                {% elif appointment[5] == 'Cancelled' %}
+
+                    <span class="badge bg-danger">
+                        Cancelled
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+            <!-- Actions -->
+            <td>
+
+                {% if appointment[5] == 'Scheduled' %}
+
+                    <div class="d-flex gap-2">
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('complete_appointment', appointment_id=appointment[0]) }}"
+                        >
+                            <button class="btn btn-success btn-sm">
+                                Complete
+                            </button>
+                        </form>
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('cancel_appointment', appointment_id=appointment[0]) }}"
+                        >
+                            <button class="btn btn-danger btn-sm">
+                                Cancel
+                            </button>
+                        </form>
+
+                    </div>
+
+                {% elif appointment[5] == 'Completed' %}
+
+                    <span class="text-muted">
+                        No action
+                    </span>
+
+                {% elif appointment[5] == 'Cancelled' %}
+
+                    <span class="text-muted">
+                        No action
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
